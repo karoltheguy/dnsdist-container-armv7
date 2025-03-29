@@ -8,4 +8,4 @@ COPY dnsdist.conf /etc/dnsdist.conf
 EXPOSE 53/udp 53/tcp
 VOLUME ["/etc/dnsdist/"]
 
-CMD ["/usr/bin/dnsdist"]
+ENTRYPOINT ["/usr/bin/dnsdist", "--supervised"]
