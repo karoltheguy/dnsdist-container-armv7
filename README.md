@@ -1,6 +1,6 @@
-# DNSDist Docker for RouterOS on armv7 (32bit)
+# DNSDist Docker for armv7 (32bit)
 
-This repository contains a Docker image for running DNSDist on RouterOS devices with armv7 (32bit) architecture like the [RB4011](https://mikrotik.com/product/rb4011igs_rm).
+This repository contains a Docker image for running DNSDist on devices with armv7 (32bit) architecture like the Mikrotik [RB4011](https://mikrotik.com/product/rb4011igs_rm).
 
 ## Table of Contents
 
