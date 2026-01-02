@@ -26,6 +26,8 @@ jobs:
   build:
 
     runs-on: ubuntu-24.04-arm
+    env:
+      DOCKERHUB_USERNAME: carolouellet
     permissions:
       contents: read
       packages: write
