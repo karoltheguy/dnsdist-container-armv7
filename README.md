@@ -5,7 +5,8 @@ This repository contains a Docker image for running DNSDist on devices with armv
 ## Table of Contents
 
 - [Installation](#install-container)
-- [Build Yourself](build-yourself)
+- [Build Yourself](#build-yourself)
+- [Cross-compile and install for MikroTik routers](#cross-compile-and-install-for-mikrotik-routers)
 - [Configuration](#configuration)
 
 
@@ -31,6 +32,28 @@ To build and run the Docker image, follow these steps:
     docker run -d --name dnsdist -p 53:53/udp -p 53:53/tcp dnsdist-armv7
     ```
 
+## Cross-compile and install for MikroTik routers
+
+- On the host system, install the qemu-base ARM emulation, build the ARM image and export a tar file:
+
+    ```sh
+    git clone https://github.com/karoltheguy/dnsdist-container-armv7.git
+    cd dnsdist-container-armv7
+    docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+    docker build --platform linux/arm/v7 -t dnsdist-armv7 .
+    docker image save dnsdist-armv7 > dnsdist-armv7.tar
+    ```
+
+- Copy the image to `/docker/dnsdist-armv7.tar` and your config to `/docker/dnsdist-conf/dnsdist.conf` on the MikroTik router and provision the container according to [MikroTik documentation](https://manual.mikrotik.com/docs/containers/):
+
+    ```sh
+    /container mounts
+    add dst=/etc/dnsdist list=MOUNT_DNSDIST_CONF mode=ro src=/docker/dnsdist-conf/
+    /container
+    add file=docker/dnsdist-armv7.tar interface=veth3 layer-dir="" \
+        mountlists=MOUNT_DNSDIST_CONF name=dnsdist root-dir=/docker/images/dnsdist \
+        start-on-boot=yes
+    ```
 
 ## Configuration
 
